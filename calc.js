@@ -1,9 +1,9 @@
 const display = document.querySelector('#display');
 const digits = document.querySelector('#digits');
 
-let str1 = null;
-let str2 = null;
-let opstr = null; 
+let inputStr = '';
+let totalStr = '';
+let opstr = ''; 
 
 function add(num1, num2) {
   return num1 + num2;
@@ -24,40 +24,48 @@ function div(num1, num2) {
 function operate(op, num1, num2) {
   switch (op) {
     case '+': return add(num1, num2); break;
-    case '-': return sub(num1, num2); break;
+    case '-': return sub(num2, num1); break;
     case '*': return mul(num1, num2); break;
-    case '/': return div(num1, num2); break;
+    case '/': return div(num2, num1); break;
+
+    default: return num1; break; 
   }
 }
 
-function updateDisplay() {
-  display.textContent = 'bing bong';
-} 
-
-function clearDisplay() {
-  display.textContent = '';
+function myParseInt(str) {
+  if ( str == '') {
+    return 0;
+  } 
+  else {
+    return parseInt(str);
+  } 
 }
 
 function clearAll() {
-  str1 = null;
-  str2 = null;
-  opstr  = null;
-  clearDisplay();
+  inputStr = '';
+  totalStr = '';
+  opstr = '';
+  display.textContent = '';
+  console.clear();
 }
 
+// DIGIT BUTTON PRESS
 digits.addEventListener('click', function(event) {
-  display.textContent += event.target.value;
+  inputStr += event.target.value;
+  display.textContent = inputStr; 
 });
 
+// OPERATOR BUTTON PRESS
 operators.addEventListener('click', function(event) {
-  str1 = display.textContent;
-  clearDisplay();
+  totalStr = operate(opstr, myParseInt(inputStr), myParseInt(totalStr));
   opstr = event.target.textContent;
+  display.textContent = totalStr;
+  inputStr = '';
 });
 
+// EQUALS BUTTON PRESS
 equals.addEventListener('click', function(event) {
-  str2 = display.textContent;
-
-  const result = operate(opstr, parseInt(str1), parseInt(str2));
-  display.textContent = parseInt(result);
+  totalStr = operate(opstr, myParseInt(inputStr), myParseInt(totalStr));
+  display.textContent = totalStr;
+  inputStr = ''; 
 });
