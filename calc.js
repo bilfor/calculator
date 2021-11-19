@@ -23,9 +23,9 @@ function div(num1, num2) {
 
 function operate(op, num1, num2) {
   switch (op) {
-    case '+': return add(num1, num2); break;
+    case '+': return add(num2, num1); break;
     case '-': return sub(num2, num1); break;
-    case '*': return mul(num1, num2); break;
+    case '*': return mul(num2, num1); break;
     case '/': return div(num2, num1); break;
 
     default: return num1; break; 
@@ -45,14 +45,16 @@ function clearAll() {
   inputStr = '';
   totalStr = '';
   opstr = '';
-  display.textContent = '';
+  display.textContent = 'penis';
   console.clear();
 }
 
 // DIGIT BUTTON PRESS
 digits.addEventListener('click', function(event) {
-  inputStr += event.target.value;
-  display.textContent = inputStr; 
+  if ( event.target.value != '=') {
+    inputStr += event.target.value;
+    display.textContent = inputStr; 
+  }
 });
 
 // OPERATOR BUTTON PRESS
@@ -66,6 +68,7 @@ operators.addEventListener('click', function(event) {
 // EQUALS BUTTON PRESS
 equals.addEventListener('click', function(event) {
   totalStr = operate(opstr, myParseInt(inputStr), myParseInt(totalStr));
+  opstr = '+';
   display.textContent = totalStr;
   inputStr = ''; 
 });
